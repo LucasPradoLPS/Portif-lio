@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limpar Cache - Portfólio</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; background: #f5f5f5; text-align: center; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        button { padding: 15px 30px; margin: 10px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
+        .clear { background: #dc3545; color: white; }
+        .clear:hover { background: #c82333; }
+        .reload { background: #28a745; color: white; }
+        .reload:hover { background: #218838; }
+        .back { background: #007bff; color: white; }
+        .back:hover { background: #0056b3; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Limpeza de Cache</h1>
+        <p>Esta página permite limpar o cache de projetos salvos e recarregar os repositórios do GitHub com as novas configurações.</p>
+        
+        <div class="warning">
+            <strong>⚠️ Atenção:</strong> Isso removerá todos os projetos salvos localmente e recarregará apenas os repositórios do GitHub (excluindo o repositório "Ana").
+        </div>
+        
+        <button class="clear" onclick="clearCache()">🗑️ Limpar Cache</button>
+        <button class="reload" onclick="reloadWithCache()">🔄 Recarregar com Cache Limpo</button>
+        <button class="back" onclick="goBack()">⬅️ Voltar ao Portfólio</button>
+        
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function clearCache() {
+            // Limpar localStorage
+            localStorage.removeItem('portfolioProjects');
+            
+            // Limpar qualquer outro cache relacionado
+            localStorage.removeItem('portfolioTheme');
+            
+            document.getElementById('status').innerHTML = '<p style="color: green;">✅ Cache completo limpo com sucesso!</p>';
+        }
+        
+        function reloadWithCache() {
+            // Limpeza agressiva
+            localStorage.clear();
+            
+            // Adicionar parâmetro para forçar recarga
+            window.location.href = 'index.html?clearCache=true&t=' + Date.now();
+        }
+        
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+        
+        // Mostrar informações do cache atual
+        window.onload = function() {
+            const saved = localStorage.getItem('portfolioProjects');
+            if (saved) {
+                const projects = JSON.parse(saved);
+                document.getElementById('status').innerHTML = `
+                    <p><strong>Cache atual:</strong> ${projects.length} projetos salvos</p>
+                    <small>Última atualização: ${new Date().toLocaleString()}</small>
+                `;
+            } else {
+                document.getElementById('status').innerHTML = '<p><em>Nenhum cache encontrado</em></p>';
+            }
+        }
+    </script>
+</body>
+</html>

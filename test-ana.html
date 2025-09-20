@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Específico - Repositório Ana</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        .info { color: #17a2b8; }
+        #results { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .repo-list { margin: 10px 0; }
+        .repo-item { padding: 8px; margin: 5px 0; background: #fff; border: 1px solid #ddd; border-radius: 4px; }
+        .excluded { background: #ffebee; border-color: #f44336; }
+        .included { background: #e8f5e8; border-color: #4caf50; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Teste Específico - Repositório "Ana"</h1>
+        <p>Este teste verifica especificamente se o repositório "Ana" está sendo corretamente filtrado.</p>
+        
+        <button onclick="testarFiltroAna()">🧪 Testar Filtro do Repositório Ana</button>
+        <button onclick="limparCache()">🧹 Limpar Cache</button>
+        <button onclick="voltarPortfolio()">⬅️ Voltar ao Portfólio</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // Configuração igual ao script principal
+        const GITHUB_CONFIG = {
+            username: 'LucasPradoLPS',
+            apiUrl: 'https://api.github.com/users/LucasPradoLPS/repos',
+            excludedRepos: ['ana']
+        };
+
+        async function testarFiltroAna() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p class="info">🔄 Testando filtro do repositório Ana...</p>';
+            
+            try {
+                const response = await fetch(GITHUB_CONFIG.apiUrl + '?sort=updated&per_page=50&type=public', {
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'User-Agent': 'Portfolio-Website'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+                }
+                
+                const repos = await response.json();
+                
+                // Procurar especificamente pelo repositório "Ana"
+                const anaRepo = repos.find(repo => repo.name.toLowerCase() === 'ana');
+                
+                // Aplicar filtros como no script principal
+                const filteredRepos = repos.filter(repo => 
+                    !repo.fork && 
+                    !repo.archived && 
+                    !repo.private &&
+                    !GITHUB_CONFIG.excludedRepos.includes(repo.name.toLowerCase()) &&
+                    (repo.description || repo.name)
+                );
+                
+                const anaInFiltered = filteredRepos.find(repo => repo.name.toLowerCase() === 'ana');
+                
+                let resultHtml = '<h3>📊 Resultados do Teste</h3>';
+                
+                // Status do repositório Ana
+                if (anaRepo) {
+                    resultHtml += `
+                        <div class="repo-item excluded">
+                            <strong>🔍 Repositório "Ana" encontrado nos dados brutos:</strong><br>
+                            Nome: ${anaRepo.name}<br>
+                            Descrição: ${anaRepo.description || 'Sem descrição'}<br>
+                            Privado: ${anaRepo.private ? 'Sim' : 'Não'}<br>
+                            Fork: ${anaRepo.fork ? 'Sim' : 'Não'}<br>
+                            Arquivado: ${anaRepo.archived ? 'Sim' : 'Não'}
+                        </div>
+                    `;
+                } else {
+                    resultHtml += '<p class="info">ℹ️ Repositório "Ana" não encontrado nos dados brutos da API</p>';
+                }
+                
+                // Status após filtros
+                if (anaInFiltered) {
+                    resultHtml += `
+                        <div class="repo-item excluded">
+                            <strong class="error">❌ PROBLEMA: Repositório "Ana" passou pelos filtros!</strong><br>
+                            Isso significa que o filtro não está funcionando corretamente.
+                        </div>
+                    `;
+                } else {
+                    resultHtml += `
+                        <div class="repo-item included">
+                            <strong class="success">✅ SUCESSO: Repositório "Ana" foi corretamente filtrado!</strong><br>
+                            O filtro está funcionando como esperado.
+                        </div>
+                    `;
+                }
+                
+                // Estatísticas gerais
+                resultHtml += `
+                    <div class="repo-list">
+                        <h4>📈 Estatísticas:</h4>
+                        <p><strong>Total de repositórios na API:</strong> ${repos.length}</p>
+                        <p><strong>Repositórios após filtros:</strong> ${filteredRepos.length}</p>
+                        <p><strong>Repositórios excluídos por nome:</strong> ${repos.filter(r => GITHUB_CONFIG.excludedRepos.includes(r.name.toLowerCase())).length}</p>
+                    </div>
+                `;
+                
+                // Lista de repositórios filtrados
+                resultHtml += `
+                    <h4>📋 Repositórios que serão exibidos no portfólio:</h4>
+                    <div class="repo-list">
+                        ${filteredRepos.slice(0, 10).map(repo => `
+                            <div class="repo-item included">
+                                <strong>${repo.name}</strong><br>
+                                <small>${repo.description || 'Sem descrição'} | ${repo.language || 'N/A'}</small>
+                            </div>
+                        `).join('')}
+                        ${filteredRepos.length > 10 ? `<p><em>... e mais ${filteredRepos.length - 10} repositórios</em></p>` : ''}
+                    </div>
+                `;
+                
+                resultsDiv.innerHTML = resultHtml;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <h3 class="error">❌ Erro no Teste</h3>
+                    <p><strong>Erro:</strong> ${error.message}</p>
+                `;
+            }
+        }
+        
+        function limparCache() {
+            localStorage.clear();
+            alert('✅ Cache limpo! Recarregue o portfólio para ver as mudanças.');
+        }
+        
+        function voltarPortfolio() {
+            window.location.href = 'index.html?clearCache=true&t=' + Date.now();
+        }
+    </script>
+</body>
+</html>

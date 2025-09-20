@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Portfólio | Desenvolvedor</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-in': 'slideIn 0.3s ease-out',
+                        'theme-switch': 'themeSwitch 0.2s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        themeSwitch: {
+                            '0%': { transform: 'scale(1) rotate(0deg)' },
+                            '50%': { transform: 'scale(0.9) rotate(180deg)' },
+                            '100%': { transform: 'scale(1) rotate(360deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Prevent theme flash -->
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('portfolioTheme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 z-50 transition-all duration-300 dark:bg-slate-900/95 dark:border-slate-700">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 lg:h-20">
+                <a href="#home" class="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white transition-colors">
+                    Portfólio
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <ul class="hidden lg:flex space-x-8">
+                    <li><a href="#home" class="nav-link text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Início</a></li>
+                    <li><a href="#about" class="nav-link text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Sobre</a></li>
+                    <li><a href="#portfolio" class="nav-link text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Portfólio</a></li>
+                    <li><a href="#skills" class="nav-link text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Habilidades</a></li>
+                    <li><a href="#contact" class="nav-link text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Contato</a></li>
+                </ul>
+                
+                <!-- Controls -->
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="group relative p-3 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 dark:from-slate-800 dark:to-slate-900 dark:hover:from-slate-700 dark:hover:to-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm" aria-label="Alternar tema">
+                        <div class="relative w-5 h-5">
+                            <i class="fas fa-sun absolute inset-0 text-amber-500 group-hover:text-amber-400 transition-all duration-300 transform group-hover:scale-110 theme-icon-light"></i>
+                            <i class="fas fa-moon absolute inset-0 text-indigo-400 group-hover:text-indigo-300 transition-all duration-300 transform group-hover:scale-110 theme-icon-dark opacity-0"></i>
+                        </div>
+                        <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button class="lg:hidden p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors hamburger">
+                        <div class="w-6 h-6 flex flex-col justify-center items-center space-y-1">
+                            <span class="bar w-5 h-0.5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"></span>
+                            <span class="bar w-5 h-0.5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"></span>
+                            <span class="bar w-5 h-0.5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div class="lg:hidden nav-menu hidden">
+                <div class="pb-4 space-y-2">
+                    <a href="#home" class="block px-4 py-2 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Início</a>
+                    <a href="#about" class="block px-4 py-2 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Sobre</a>
+                    <a href="#portfolio" class="block px-4 py-2 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Portfólio</a>
+                    <a href="#skills" class="block px-4 py-2 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Habilidades</a>
+                    <a href="#contact" class="block px-4 py-2 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-medium transition-colors">Contato</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 relative overflow-hidden flex items-center transition-colors duration-500">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-emerald-500/5 dark:from-blue-500/10 dark:via-transparent dark:to-emerald-500/5"></div>
+        
+        <!-- Animated background particles -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute w-96 h-96 -top-48 -right-48 bg-gradient-to-br from-blue-400/20 to-transparent rounded-full blur-3xl dark:from-blue-400/10"></div>
+            <div class="absolute w-96 h-96 -bottom-48 -left-48 bg-gradient-to-br from-emerald-400/20 to-transparent rounded-full blur-3xl dark:from-emerald-400/10"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[80vh]">
+                <!-- Content -->
+                <div class="text-center lg:text-left order-2 lg:order-1">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 dark:bg-blue-500/10 dark:border-blue-500/20 rounded-full text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 backdrop-blur-sm">
+                        <i class="fas fa-code text-blue-600 dark:text-blue-400"></i>
+                        <span>Desenvolvedor Profissional</span>
+                    </div>
+                    
+                    <!-- Title -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 dark:text-white mb-4 lg:mb-6 leading-tight transition-colors duration-300">
+                        <span class="block">Olá, eu sou</span>
+                        <span class="bg-gradient-to-r from-blue-600 to-emerald-600 dark:from-blue-400 dark:to-emerald-400 bg-clip-text text-transparent">Lucas Prado</span>
+                    </h1>
+                    
+                    <!-- Subtitle -->
+                    <h2 class="text-xl sm:text-2xl lg:text-3xl text-slate-700 dark:text-slate-300 font-medium mb-6 lg:mb-8 transition-colors duration-300">
+                        Desenvolvedor Full Stack Júnior
+                    </h2>
+                    
+                    <!-- Description -->
+                    <p class="text-base lg:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mb-8 lg:mb-10 leading-relaxed transition-colors duration-300">
+                        Desenvolvedor júnior apaixonado por tecnologia, em constante aprendizado e crescimento. 
+                        Focado na criação de soluções eficientes utilizando tecnologias modernas e boas práticas.
+                    </p>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-4 sm:gap-8 mb-8 lg:mb-10">
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1 transition-colors duration-300">3+</div>
+                            <div class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">Anos de Experiência</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1 transition-colors duration-300">15+</div>
+                            <div class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">Projetos Desenvolvidos</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1 transition-colors duration-300">10+</div>
+                            <div class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">Tecnologias Dominadas</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#portfolio" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 dark:from-white dark:to-slate-100 dark:hover:from-slate-100 dark:hover:to-white text-white dark:text-slate-900 font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                            <i class="fas fa-briefcase"></i>
+                            Ver Portfólio
+                        </a>
+                        <a href="https://curriculo-lucas-prado.vercel.app/" target="_blank" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Currículo</span>
+                            <i class="fas fa-external-link-alt text-sm opacity-70 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+                        <a href="#contact" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-900/10 hover:bg-slate-900/20 dark:bg-white/10 dark:hover:bg-white/20 text-slate-900 dark:text-white font-semibold rounded-xl border border-slate-900/20 hover:border-slate-900/30 dark:border-white/20 dark:hover:border-white/30 backdrop-blur-sm transform hover:-translate-y-1 transition-all duration-300">
+                            <i class="fas fa-handshake"></i>
+                            Entrar em Contato
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Profile Card -->
+                <div class="order-1 lg:order-2 flex justify-center lg:justify-end">
+                    <div class="relative group">
+                        <!-- Glowing effect -->
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+                        
+                        <!-- Card -->
+                        <div class="relative bg-slate-900/5 hover:bg-slate-900/10 dark:bg-white/5 dark:hover:bg-white/10 backdrop-blur-xl border border-slate-900/10 dark:border-white/10 rounded-3xl p-6 lg:p-8 text-center shadow-2xl transition-all duration-500">
+                            <div class="relative mb-6">
+                                <div class="w-32 h-32 lg:w-40 lg:h-40 mx-auto rounded-full overflow-hidden border-4 border-slate-900/20 dark:border-white/20 shadow-xl">
+                                    <img src="Minha_foto.jpg" alt="Lucas Prado" class="w-full h-full object-cover">
+                                </div>
+                                <!-- Status indicator -->
+                                <div class="absolute bottom-2 right-2 lg:bottom-4 lg:right-4 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white dark:border-slate-900 shadow-lg animate-pulse"></div>
+                            </div>
+                            
+                            <h3 class="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">Desenvolvedor Full Stack Júnior</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-4 transition-colors duration-300">Transformando ideias em realidade digital</p>
+                            
+                            <!-- Tech badges carousel -->
+                            <div class="relative overflow-hidden h-8">
+                                <div class="flex gap-3 animate-scroll-left absolute whitespace-nowrap">
+                                    <span class="px-3 py-1 text-xs bg-blue-500/20 text-blue-600 dark:text-blue-300 rounded-full border border-blue-500/30 font-medium">React</span>
+                                    <span class="px-3 py-1 text-xs bg-green-500/20 text-green-600 dark:text-green-300 rounded-full border border-green-500/30 font-medium">Node.js</span>
+                                    <span class="px-3 py-1 text-xs bg-purple-500/20 text-purple-600 dark:text-purple-300 rounded-full border border-purple-500/30 font-medium">PHP</span>
+                                    <span class="px-3 py-1 text-xs bg-yellow-500/20 text-yellow-600 dark:text-yellow-300 rounded-full border border-yellow-500/30 font-medium">JavaScript</span>
+                                    <span class="px-3 py-1 text-xs bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full border border-orange-500/30 font-medium">MySQL</span>
+                                    <span class="px-3 py-1 text-xs bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 rounded-full border border-cyan-500/30 font-medium">CSS3</span>
+                                    <span class="px-3 py-1 text-xs bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 rounded-full border border-indigo-500/30 font-medium">HTML5</span>
+                                    <span class="px-3 py-1 text-xs bg-red-500/20 text-red-600 dark:text-red-300 rounded-full border border-red-500/30 font-medium">Git</span>
+                                    <span class="px-3 py-1 text-xs bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 rounded-full border border-emerald-500/30 font-medium">PostgreSQL</span>
+                                    <span class="px-3 py-1 text-xs bg-slate-500/20 text-slate-600 dark:text-slate-300 rounded-full border border-slate-500/30 font-medium">MongoDB</span>
+                                    <span class="px-3 py-1 text-xs bg-pink-500/20 text-pink-600 dark:text-pink-300 rounded-full border border-pink-500/30 font-medium">React Native</span>
+                                    <span class="px-3 py-1 text-xs bg-violet-500/20 text-violet-600 dark:text-violet-300 rounded-full border border-violet-500/30 font-medium">Python</span>
+                                    <!-- Duplicate for seamless loop -->
+                                    <span class="px-3 py-1 text-xs bg-blue-500/20 text-blue-600 dark:text-blue-300 rounded-full border border-blue-500/30 font-medium">React</span>
+                                    <span class="px-3 py-1 text-xs bg-green-500/20 text-green-600 dark:text-green-300 rounded-full border border-green-500/30 font-medium">Node.js</span>
+                                    <span class="px-3 py-1 text-xs bg-purple-500/20 text-purple-600 dark:text-purple-300 rounded-full border border-purple-500/30 font-medium">PHP</span>
+                                    <span class="px-3 py-1 text-xs bg-yellow-500/20 text-yellow-600 dark:text-yellow-300 rounded-full border border-yellow-500/30 font-medium">JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white dark:bg-slate-950 transition-colors duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6 transition-colors duration-300">Perfil Profissional</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto transition-colors duration-300">Expertise técnica e experiência comprovada em desenvolvimento</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="space-y-8">
+                    <!-- Professional Summary -->
+                    <div class="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 transition-all duration-300">
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Desenvolvedor Full Stack Júnior</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 text-slate-700 dark:text-slate-300">
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                                    <i class="fas fa-graduation-cap text-blue-600 dark:text-blue-400"></i>
+                                </div>
+                                <span class="font-medium">Formação em Tecnologia</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-slate-700 dark:text-slate-300">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                                    <i class="fas fa-certificate text-emerald-600 dark:text-emerald-400"></i>
+                                </div>
+                                <span class="font-medium">Certificações Técnicas</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-slate-700 dark:text-slate-300">
+                                <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                                    <i class="fas fa-briefcase text-purple-600 dark:text-purple-400"></i>
+                                </div>
+                                <span class="font-medium">3+ Anos de Experiência</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expertise Areas -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-6 border border-blue-200 dark:border-blue-700/50">
+                            <h4 class="text-lg font-semibold text-blue-900 dark:text-blue-300 mb-3 flex items-center gap-2">
+                                <i class="fas fa-desktop"></i> Frontend
+                            </h4>
+                            <p class="text-blue-800 dark:text-blue-200 text-sm leading-relaxed">
+                                React, Vue.js e tecnologias modernas. Interfaces responsivas e otimizadas.
+                            </p>
+                        </div>
+                        <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-xl p-6 border border-emerald-200 dark:border-emerald-700/50">
+                            <h4 class="text-lg font-semibold text-emerald-900 dark:text-emerald-300 mb-3 flex items-center gap-2">
+                                <i class="fas fa-server"></i> Backend
+                            </h4>
+                            <p class="text-emerald-800 dark:text-emerald-200 text-sm leading-relaxed">
+                                Node.js, PHP e Python. APIs robustas e sistemas escaláveis.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Professional Approach -->
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold text-slate-900 dark:text-white flex items-center gap-3">
+                            <i class="fas fa-cogs text-slate-600 dark:text-slate-400"></i> 
+                            Abordagem Profissional
+                        </h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+                                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                                Metodologias ágeis e boas práticas
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+                                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                                Código limpo e testável
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+                                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                                Foco em performance e segurança
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+                                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                                Colaboração efetiva em equipes
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                            <h4 class="text-2xl font-bold text-slate-900 dark:text-white">10+</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Projetos</p>
+                        </div>
+                        <div class="text-center bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                            <h4 class="text-2xl font-bold text-slate-900 dark:text-white">3+</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Anos</p>
+                        </div>
+                        <div class="text-center bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                            <h4 class="text-2xl font-bold text-slate-900 dark:text-white">100%</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Dedicação</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- About Image -->
+                <div class="flex justify-center lg:justify-end">
+                    <div class="relative group">
+                        <!-- Glowing gradient background -->
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-500 rounded-3xl blur-lg opacity-25 group-hover:opacity-40 transition duration-700 animate-pulse"></div>
+                        
+                        <!-- Professional photo container -->
+                        <div class="relative bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-slate-800 dark:via-slate-900 dark:to-slate-950 rounded-3xl p-3 border-2 border-slate-200/50 dark:border-slate-700/50 shadow-2xl">
+                            <div class="relative overflow-hidden rounded-2xl">
+                                <!-- Professional overlay gradient -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-slate-100/10 z-10 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                                
+                                <!-- Enhanced professional photo -->
+                                <img src="Foto2.jpg" alt="Lucas Prado - Desenvolvedor Fullstack" 
+                                     class="w-full h-auto max-w-xs rounded-2xl transform transition-all duration-700 
+                                            filter brightness-105 contrast-110 saturate-110
+                                            group-hover:scale-105 group-hover:brightness-110 group-hover:contrast-115
+                                            shadow-xl group-hover:shadow-2xl">
+                                
+                                <!-- Professional border accent -->
+                                <div class="absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-emerald-500/20 bg-clip-border opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            </div>
+                            
+                            <!-- Professional badge -->
+                            <div class="absolute -bottom-2 -right-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg border-2 border-white dark:border-slate-900 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                                💼 Profissional
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Competências Técnicas</h2>
+                <p class="section-subtitle">Stack tecnológico e expertise profissional</p>
+            </div>
+            
+            <div class="skills-categories">
+                <!-- Frontend Technologies -->
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-desktop"></i>
+                        <h3>Frontend Development</h3>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card advanced">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-html5"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>HTML5</h4>
+                                    <span class="skill-level advanced">Avançado</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95%"></div>
+                            </div>
+                            <div class="skill-years">4+ anos</div>
+                        </div>
+                        <div class="skill-card advanced">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-css3-alt"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>CSS3/SASS</h4>
+                                    <span class="skill-level advanced">Avançado</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                            <div class="skill-years">4+ anos</div>
+                        </div>
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-js-square"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>JavaScript ES6+</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                            <div class="skill-years">3+ anos</div>
+                        </div>
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-react"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>React.js</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                            <div class="skill-years">2+ anos</div>
+                        </div>
+                        <div class="skill-card advanced">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>Tailwind CSS</h4>
+                                    <span class="skill-level advanced">Avançado</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="88%"></div>
+                            </div>
+                            <div class="skill-years">2+ anos</div>
+                        </div>
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>React Native</h4>
+                                    <span class="skill-level beginner">Iniciante</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="40%"></div>
+                            </div>
+                            <div class="skill-years">6 meses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Technologies -->
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-server"></i>
+                        <h3>Backend Development</h3>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-php"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>PHP</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                            <div class="skill-years">3+ anos</div>
+                        </div>
+                        <div class="skill-card beginner">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-node-js"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>Node.js</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                            <div class="skill-years">3 anos</div>
+                        </div>
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-python"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>Python</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="78%"></div>
+                            </div>
+                            <div class="skill-years">2+ anos</div>
+                        </div>
+                        <div class="skill-card beginner">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>MySQL</h4>
+                                    <span class="skill-level beginner">Iniciante</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70%"></div>
+                            </div>
+                            <div class="skill-years">2+ anos</div>
+                        </div>
+                        <div class="skill-card beginner">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fas fa-elephant"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>PostgreSQL</h4>
+                                    <span class="skill-level beginner">Iniciante</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="60%"></div>
+                            </div>
+                            <div class="skill-years">1 ano</div>
+                        </div>
+                        <div class="skill-card beginner">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>MongoDB</h4>
+                                    <span class="skill-level beginner">Iniciante</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="45%"></div>
+                            </div>
+                            <div class="skill-years">8 meses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Automation & Integration -->
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-robot"></i>
+                        <h3>Automação & Integração</h3>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>N8N Workflows</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="82%"></div>
+                            </div>
+                            <div class="skill-years">1+ ano</div>
+                        </div>
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>API Integration</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85%"></div>
+                            </div>
+                            <div class="skill-years">2+ anos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools & DevOps -->
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-tools"></i>
+                        <h3>Ferramentas & DevOps</h3>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-card advanced">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-git-alt"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>Git/GitHub</h4>
+                                    <span class="skill-level advanced">Avançado</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90%"></div>
+                            </div>
+                            <div class="skill-years">3+ anos</div>
+                        </div>
+                        <div class="skill-card intermediate">
+                            <div class="skill-header">
+                                <div class="skill-icon">
+                                    <i class="fab fa-npm"></i>
+                                </div>
+                                <div class="skill-info">
+                                    <h4>NPM/Yarn</h4>
+                                    <span class="skill-level intermediate">Intermediário</span>
+                                </div>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80%"></div>
+                            </div>
+                            <div class="skill-years">2+ anos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications Section -->
+            <div class="certifications">
+                <h3><i class="fas fa-award"></i> Certificações e Qualificações</h3>
+                <div class="cert-grid">
+                    <div class="cert-item">
+                        <i class="fas fa-certificate"></i>
+                        <div class="cert-info">
+                            <h4>Desenvolvimento Web Completo</h4>
+                            <p>Certificação em tecnologias modernas</p>
+                        </div>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fab fa-github"></i>
+                        <div class="cert-info">
+                            <h4>GitHub Portfolio</h4>
+                            <p>15+ repositórios públicos</p>
+                        </div>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fas fa-code"></i>
+                        <div class="cert-info">
+                            <h4>Clean Code</h4>
+                            <p>Boas práticas de desenvolvimento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Portfólio Profissional</h2>
+                <p class="section-subtitle">Projetos desenvolvidos e repositórios técnicos no GitHub</p>
+                <div class="portfolio-stats">
+                    <div class="portfolio-stat">
+                        <span class="stat-number" id="totalProjects">0</span>
+                        <span class="stat-label">Projetos</span>
+                    </div>
+                    <div class="portfolio-stat">
+                        <span class="stat-number" id="totalTechnologies">0</span>
+                        <span class="stat-label">Tecnologias</span>
+                    </div>
+                    <div class="portfolio-stat">
+                        <span class="stat-number" id="totalStars">0</span>
+                        <span class="stat-label">GitHub Stars</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filter Buttons -->
+            <div class="portfolio-filters">
+                <div class="filter-header">
+                    <h4><i class="fas fa-filter"></i> Filtrar por categoria:</h4>
+                </div>
+            </div>
+
+            <!-- Portfolio Grid -->
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Os projetos serão adicionados aqui via JavaScript -->
+            </div>
+
+            <!-- Botão para adicionar novo projeto -->
+            <div class="add-project-section">
+                <div class="section-actions">
+                    <button class="btn btn-primary" id="addProjectBtn">
+                        <i class="fas fa-plus-circle"></i> Novo Projeto
+                    </button>
+                    <button class="btn btn-github" id="syncGitHubBtn">
+                        <i class="fab fa-github"></i> Sincronizar GitHub
+                    </button>
+                </div>
+                <p class="sync-info">
+                    <i class="fas fa-info-circle"></i>
+                    Repositórios sincronizados automaticamente do GitHub público
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Contato</h2>
+                <p class="section-subtitle">Vamos trabalhar juntos!</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Email</h3>
+                            <p>lucaspsilva162014@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Telefone</h3>
+                            <p>+55 (31) 999380844</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Localização</h3>
+                            <p>Sete Lagoas/Belo Horizonte/MG, Brasil</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Seu Nome" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Seu Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Assunto" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Sua Mensagem" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative bg-gradient-to-br from-slate-100 via-slate-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-all duration-500">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/10 to-emerald-500/10"></div>
+        </div>
+        
+        <!-- Decorative top border -->
+        <div class="h-1 bg-gradient-to-r from-blue-600 via-emerald-500 to-blue-600"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main Footer Content -->
+            <div class="py-12 lg:py-16">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+                    <!-- Brand Section -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-code text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white transition-colors">Lucas Prado</h3>
+                                <p class="text-slate-600 dark:text-slate-400 transition-colors">Desenvolvedor Full Stack Júnior</p>
+                            </div>
+                        </div>
+                        
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-md transition-colors">
+                            Desenvolvedor júnior dedicado ao desenvolvimento web moderno, focado na criação de soluções eficientes e experiências digitais de qualidade.
+                        </p>
+                        
+                        <!-- Contact Info -->
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group cursor-pointer">
+                                <div class="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
+                                    <i class="fas fa-envelope text-sm"></i>
+                                </div>
+                                <span class="font-medium">lucaspsilva162014@gmail.com</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 transition-colors">
+                                <div class="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center transition-colors">
+                                    <i class="fas fa-map-marker-alt text-sm"></i>
+                                </div>
+                                <span class="font-medium">Sete Lagoas/Belo Horizonte/MG, Brasil</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 transition-colors">
+                                <div class="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
+                                    <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                                </div>
+                                <span class="font-medium">Disponível para projetos</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <div class="space-y-6">
+                        <h4 class="text-lg font-semibold text-slate-900 dark:text-white transition-colors">Navegação</h4>
+                        <nav class="space-y-3">
+                            <a href="#home" class="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium group">
+                                <span class="flex items-center gap-2">
+                                    <i class="fas fa-home text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                                    Início
+                                </span>
+                            </a>
+                            <a href="#about" class="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium group">
+                                <span class="flex items-center gap-2">
+                                    <i class="fas fa-user text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                                    Sobre
+                                </span>
+                            </a>
+                            <a href="#skills" class="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium group">
+                                <span class="flex items-center gap-2">
+                                    <i class="fas fa-cogs text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                                    Habilidades
+                                </span>
+                            </a>
+                            <a href="#portfolio" class="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium group">
+                                <span class="flex items-center gap-2">
+                                    <i class="fas fa-briefcase text-xs opacity-50 group-hover:opacity-100 transition-opacity"></i>
+                                    Portfólio
+                                </span>
+                            </a>
+                        </nav>
+                        
+                        <!-- Services -->
+                        <div class="pt-4">
+                            <h5 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 transition-colors">Serviços</h5>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                                    <div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                                    <span>Frontend Development</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                                    <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                                    <span>Backend Development</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social & Connect -->
+                    <div class="space-y-6">
+                        <h4 class="text-lg font-semibold text-slate-900 dark:text-white transition-colors">Conecte-se</h4>
+                        
+                        <!-- Social Links -->
+                        <div class="space-y-3">
+                            <a href="https://github.com/LucasPradoLPS" target="_blank" class="group flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                                <div class="w-10 h-10 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
+                                    <i class="fab fa-github text-white dark:text-gray-900"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">GitHub</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Projetos & Código</div>
+                                </div>
+                                <i class="fas fa-external-link-alt text-slate-400 group-hover:text-blue-500 transition-colors text-xs"></i>
+                            </a>
+                            
+                            <a href="https://www.linkedin.com/in/lucas-prado-da-silva/" target="_blank" class="group flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i class="fab fa-linkedin text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">LinkedIn</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Rede Profissional</div>
+                                </div>
+                                <i class="fas fa-external-link-alt text-slate-400 group-hover:text-blue-500 transition-colors text-xs"></i>
+                            </a>
+                            
+                            <a href="mailto:lucaspsilva162014@gmail.com" class="group flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                                <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Email</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">Contato Direto</div>
+                                </div>
+                                <i class="fas fa-paper-plane text-slate-400 group-hover:text-emerald-500 transition-colors text-xs"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <div class="p-4 bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-blue-900/20 dark:to-emerald-900/20 rounded-xl border border-blue-100 dark:border-blue-800/30 transition-colors">
+                            <h5 class="font-semibold text-slate-900 dark:text-white mb-2 transition-colors">Vamos trabalhar juntos?</h5>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-4 transition-colors">Estou sempre aberto para discutir novos projetos e oportunidades.</p>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <a href="#contact" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                                    <span>Entre em contato</span>
+                                    <i class="fas fa-arrow-right text-xs"></i>
+                                </a>
+                                <a href="https://curriculo-lucas-prado.vercel.app/" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
+                                    <span>Ver currículo</span>
+                                    <i class="fas fa-external-link-alt text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="border-t border-slate-200 dark:border-slate-700 py-8">
+                <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
+                    <!-- Copyright -->
+                    <div class="text-center lg:text-left">
+                        <p class="text-slate-600 dark:text-slate-400 font-medium transition-colors">
+                            &copy; 2025 Lucas Prado da Silva. Todos os direitos reservados.
+                        </p>
+                        <p class="text-sm text-slate-500 dark:text-slate-500 mt-1 transition-colors">
+                            Desenvolvido com <i class="fas fa-heart text-red-500 animate-pulse"></i> usando tecnologias modernas
+                        </p>
+                    </div>
+                    
+                    <!-- Tech Stack -->
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Construído com:</span>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full transition-colors">HTML5</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full transition-colors">CSS3</span>
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-medium rounded-full transition-colors">JavaScript</span>
+                            <span class="px-3 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium rounded-full transition-colors">Tailwind</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para adicionar projeto -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Novo Projeto</h2>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectTitle">Título do Projeto:</label>
+                    <input type="text" id="projectTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Descrição:</label>
+                    <textarea id="projectDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectCategory">Categoria:</label>
+                    <select id="projectCategory" required>
+                        <option value="web">Web</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="design">Design</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="projectImage">URL da Imagem:</label>
+                    <input type="url" id="projectImage" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectLink">Link do Projeto:</label>
+                    <input type="url" id="projectLink" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectGithub">Link do GitHub:</label>
+                    <input type="url" id="projectGithub">
+                </div>
+                <button type="submit" class="btn btn-primary">Adicionar Projeto</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
