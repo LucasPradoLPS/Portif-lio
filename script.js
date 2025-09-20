@@ -11,9 +11,18 @@ let projects = [];
 const GITHUB_CONFIG = {
     username: 'LucasPradoLPS',
     apiUrl: 'https://api.github.com/users/LucasPradoLPS/repos',
-    maxRepos: 10, // Máximo de repositórios para exibir
-    excludedRepos: ['ana'] // Lista de repositórios para excluir (em lowercase)
-    // Para excluir mais repositórios, adicione o nome em lowercase: ['ana', 'repo2', 'repo3']
+    maxRepos: 15, // Máximo de repositórios para exibir
+    excludedRepos: [
+        'ana', // Repositórios específicos para excluir
+        'lucaspradolps.github.io', // GitHub Pages pessoal
+        'config', // Arquivos de configuração
+        'dotfiles', // Arquivos de configuração pessoal
+    ],
+    // Filtros de qualidade - apenas repositórios com essas características serão mostrados
+    minStars: 0, // Mínimo de stars (0 = todos)
+    showForksOnly: false, // true = mostrar apenas forks, false = não mostrar forks
+    showArchivedRepos: false, // Mostrar repositórios arquivados
+    preferredLanguages: ['JavaScript', 'Python', 'Java', 'TypeScript', 'HTML', 'CSS', 'React'] // Linguagens preferenciais (ordem de prioridade)
 };
 
 // DOM Elements
@@ -82,8 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAnimations();
     initializeSkillBars();
     clearOldGitHubProjects(); // Limpar projetos antigos do GitHub
-    loadSampleProjects();
-    loadGitHubProjects();
+    // Carregar apenas projetos do GitHub, sem projetos de exemplo
+    loadGitHubProjectsOnly();
     updatePortfolioStats();
     updateActiveNavLink();
     initializeTheme();
@@ -311,34 +320,12 @@ function renderProject(project) {
         </div>
     ` : '';
     
-    // Badge de atividade baseado na data de atualização
-    const getActivityBadge = (updatedAt) => {
-        if (!updatedAt) return '';
-        const now = new Date();
-        const updated = new Date(updatedAt);
-        const daysDiff = (now - updated) / (1000 * 60 * 60 * 24);
-        
-        if (daysDiff <= 7) return `<div class="activity-badge recent"><i class="fas fa-clock"></i> Recente</div>`;
-        if (daysDiff <= 30) return `<div class="activity-badge active"><i class="fas fa-code"></i> Ativo</div>`;
-        if (daysDiff <= 90) return `<div class="activity-badge stable"><i class="fas fa-check"></i> Estável</div>`;
-        return '';
-    };
-    
-    const activityBadge = project.isGitHubRepo ? getActivityBadge(project.updatedAt) : '';
-    
-    // Badge de tipo de projeto
-    const projectTypeBadge = project.isGitHubRepo && project.projectType ? `
-        <div class="project-type-badge ${project.projectType}">
-            ${getProjectTypeIcon(project.projectType)} ${getProjectTypeLabel(project.projectType)}
-        </div>
-    ` : '';
+    // Remover badges de atividade conforme solicitado
     
     const projectHTML = `
         <div class="portfolio-item${popularClass}" data-category="${project.category}" data-id="${project.id}" ${githubAttributes}>
             ${githubBadge}
             ${popularBadge}
-            ${activityBadge}
-            ${projectTypeBadge}
             ${!project.isGitHubRepo ? `<img src="${project.image}" alt="${project.title}" class="portfolio-img" loading="lazy">` : ''}
             ${githubInfo}
             <div class="portfolio-content">
@@ -349,11 +336,6 @@ function renderProject(project) {
                         <a href="${project.github}" target="_blank" class="portfolio-link">
                             <i class="fab fa-github"></i> Código
                         </a>
-                        ${project.link !== project.github ? `
-                            <a href="${project.link}" target="_blank" class="portfolio-link">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        ` : ''}
                     ` : `
                         <a href="${project.link}" target="_blank" class="portfolio-link">
                             <i class="fas fa-external-link-alt"></i> Ver Projeto
@@ -923,13 +905,51 @@ async function fetchGitHubRepos() {
         
         // Filtrar repositórios relevantes (apenas públicos)
         const filteredRepos = repos
-            .filter(repo => 
-                !repo.fork && // Não é fork
-                !repo.archived && // Não está arquivado
-                !repo.private && // Apenas repositórios públicos
-                !GITHUB_CONFIG.excludedRepos.includes(repo.name.toLowerCase()) && // Excluir repositórios da lista
-                (repo.description || repo.name) // Tem descrição OU nome válido
-            )
+            .filter(repo => {
+                // Filtros básicos
+                const isPublic = !repo.private;
+                const isFork = repo.fork;
+                const isArchived = repo.archived;
+                const isExcluded = GITHUB_CONFIG.excludedRepos.includes(repo.name.toLowerCase());
+                const hasContent = repo.description || repo.name;
+                const meetStarRequirement = (repo.stargazers_count || 0) >= GITHUB_CONFIG.minStars;
+                
+                // Aplicar filtros conforme configuração
+                let shouldInclude = isPublic && hasContent && !isExcluded && meetStarRequirement;
+                
+                // Filtro de forks
+                if (GITHUB_CONFIG.showForksOnly) {
+                    shouldInclude = shouldInclude && isFork;
+                } else {
+                    shouldInclude = shouldInclude && !isFork;
+                }
+                
+                // Filtro de arquivados
+                if (!GITHUB_CONFIG.showArchivedRepos) {
+                    shouldInclude = shouldInclude && !isArchived;
+                }
+                
+                return shouldInclude;
+            })
+            // Ordenar por relevância: linguagens preferenciais primeiro, depois por stars, depois por data
+            .sort((a, b) => {
+                const aLangIndex = GITHUB_CONFIG.preferredLanguages.indexOf(a.language || '');
+                const bLangIndex = GITHUB_CONFIG.preferredLanguages.indexOf(b.language || '');
+                
+                // Priorizar linguagens preferenciais
+                if (aLangIndex !== -1 && bLangIndex === -1) return -1;
+                if (bLangIndex !== -1 && aLangIndex === -1) return 1;
+                if (aLangIndex !== -1 && bLangIndex !== -1) {
+                    if (aLangIndex !== bLangIndex) return aLangIndex - bLangIndex;
+                }
+                
+                // Depois ordenar por stars
+                const starsDiff = (b.stargazers_count || 0) - (a.stargazers_count || 0);
+                if (starsDiff !== 0) return starsDiff;
+                
+                // Por último, ordenar por data de atualização
+                return new Date(b.updated_at) - new Date(a.updated_at);
+            })
             .slice(0, GITHUB_CONFIG.maxRepos)
             .map(repo => ({
                 id: `github-${repo.id}`,
@@ -1082,7 +1102,39 @@ async function loadGitHubProjects() {
         
         saveProjectsToStorage();
         updatePortfolioStats();
-        showNotification(`${githubRepos.length} repositórios públicos carregados do GitHub!`, 'success');
+    }
+}
+
+// Nova função para carregar apenas projetos do GitHub (sem projetos de exemplo)
+async function loadGitHubProjectsOnly() {
+    console.log('🚀 Carregando apenas repositórios do GitHub...');
+    
+    // Limpar projetos existentes primeiro
+    projects = [];
+    const portfolioGrid = document.getElementById('portfolioGrid');
+    if (portfolioGrid) {
+        portfolioGrid.innerHTML = '';
+    }
+    
+    try {
+        const githubRepos = await fetchGitHubRepos();
+        
+        if (githubRepos.length > 0) {
+            // Substituir todos os projetos pelos do GitHub
+            projects = [...githubRepos];
+            
+            // Renderizar cada projeto
+            githubRepos.forEach(repo => {
+                renderProject(repo);
+            });
+            
+            saveProjectsToStorage();
+            updatePortfolioStats();
+            
+            console.log(`📊 Total de projetos carregados: ${projects.length}`);
+        }
+    } catch (error) {
+        console.error('❌ Erro ao carregar repositórios:', error);
     }
 }
 
@@ -1130,8 +1182,6 @@ async function handleGitHubSync() {
     
     // Carregar novamente
     await loadGitHubProjects();
-    
-    showNotification('Repositórios públicos sincronizados!', 'success');
 }
 
 function showLoadingState(isLoading) {
