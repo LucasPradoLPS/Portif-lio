@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato | Lucas Prado</title>
+    <script>
+        // Single-page mode: redirect legacy page to the main scroll section
+        window.location.replace('../index.html#contact');
+    </script>
+    <meta name="description" content="Contato — Lucas Prado. Vamos conversar sobre oportunidades e projetos.">
+    <meta name="theme-color" content="#020617">
+
+    <meta property="og:title" content="Contato — Lucas Prado">
+    <meta property="og:description" content="Entre em contato para projetos e oportunidades.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="arcade-mode">
+    <noscript>
+        <p>Esta página foi movida. Vá para <a href="../index.html#contact">Contato</a>.</p>
+    </noscript>
+    <script>
+        (function() {
+            document.documentElement.classList.add('dark');
+        })();
+    </script>
+
+    <header class="header fixed top-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 z-50 transition-all duration-300 dark:bg-slate-900/95 dark:border-slate-700">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 lg:h-20">
+                <a href="../index.html" class="header-brand text-xl lg:text-2xl font-bold text-slate-900 dark:text-white transition-colors">
+                    <span class="header-brand-main">Lucas Prado</span>
+                    <span class="header-brand-sub">Backend Player</span>
+                </a>
+
+                <ul class="hidden lg:flex space-x-8">
+                    <li><a href="../index.html" class="nav-link font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Home</a></li>
+                    <li><a href="../index.html#about" class="nav-link font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Sobre</a></li>
+                    <li><a href="../work/index.html" class="nav-link font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Projetos</a></li>
+                    <li><a href="./index.html" class="nav-link font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Contato</a></li>
+                </ul>
+
+                <div class="flex items-center space-x-4">
+                    <div class="header-game-hud hidden md:flex" aria-hidden="true">
+                        <span class="header-game-chip header-game-chip--xp"><i class="fas fa-bolt"></i> XP 1280</span>
+                        <span class="header-game-chip header-game-chip--lvl"><i class="fas fa-trophy"></i> LV 07</span>
+                    </div>
+                    <button id="themeToggle" class="hidden" aria-hidden="true" tabindex="-1"></button>
+                    <button class="lg:hidden p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors hamburger" aria-label="Abrir menu" aria-controls="primaryNavigation" aria-expanded="false">
+                        <div class="w-6 h-6 flex flex-col justify-center items-center space-y-1">
+                            <span class="bar w-5 h-0.5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"></span>
+                            <span class="bar w-5 h-0.5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"></span>
+                            <span class="bar w-5 h-0.5 bg-slate-600 dark:bg-slate-300 transition-all duration-300"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="lg:hidden nav-menu hidden" id="primaryNavigation" aria-hidden="true">
+                <div class="pb-4 space-y-2">
+                    <a href="../index.html" class="block px-4 py-2 font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Home</a>
+                    <a href="../index.html#about" class="block px-4 py-2 font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Sobre</a>
+                    <a href="../work/index.html" class="block px-4 py-2 font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Projetos</a>
+                    <a href="./index.html" class="block px-4 py-2 font-mono text-slate-700 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400 font-medium transition-colors">Contato</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-24 lg:pt-28">
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">CONTATO</h1>
+                    <p class="section-subtitle">Vamos trabalhar juntos?</p>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                            Estou aberto a oportunidades como desenvolvedor backend júnior e também projetos freelance.
+                            Entre em contato pelo email ou pelas redes abaixo.
+                        </p>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>Email</h3>
+                                <p>lucaspsilva162014@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>GitHub</h3>
+                                <p><a href="https://github.com/LucasPradoLPS" target="_blank" rel="noopener noreferrer">github.com/LucasPradoLPS</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h3>LinkedIn</h3>
+                                <p><a href="https://www.linkedin.com/in/lucas-prado-da-silva/" target="_blank" rel="noopener noreferrer">linkedin.com/in/lucas-prado-da-silva</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="from_name" placeholder="Seu Nome" autocomplete="name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="reply_to" placeholder="Seu Email" autocomplete="email" inputmode="email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Assunto" autocomplete="off" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Sua Mensagem" rows="5" autocomplete="off" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-10">
+            <div class="container">
+                <div class="text-center text-slate-500 dark:text-slate-400">
+                    <p>&copy; 2025 Lucas Prado da Silva</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="../script.js"></script>
+
+    <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+    <script>
+        (function(){
+            if (window.emailjs) {
+                emailjs.init('gEk00CzzJJigPdRmv');
+            }
+        })();
+    </script>
+
+</body>
+</html>

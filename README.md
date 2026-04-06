@@ -294,3 +294,29 @@ Sugestões e melhorias são sempre bem-vindas!
 ---
 
 **🎉 Parabéns!** Seu portfólio está pronto para impressionar. Não esqueça de personalizar com suas informações e projetos reais!
+
+## 📬 Integração com EmailJS (enviar formulário de contato por email)
+
+Você pode usar o EmailJS para enviar mensagens do formulário de contato sem precisar de um backend.
+
+Passos rápidos:
+
+1. Crie uma conta em https://www.emailjs.com/ e faça login.
+2. Adicione um `Email Service` (por exemplo, Gmail, Outlook) nas configurações — isso gera um SERVICE ID.
+3. Crie um `Email Template` com os campos que deseja receber (por exemplo: from_name, reply_to, subject, message) — isso gera um TEMPLATE ID.
+4. Copie sua `Public Key` (também chamada User ID) disponível no painel de integração.
+5. No projeto:
+    - Abra `index.html` e substitua 'YOUR_EMAILJS_USER_ID' pela sua Public Key na inicialização do EmailJS.
+    - Abra `script.js` e substitua `YOUR_EMAILJS_SERVICE_ID` e `YOUR_EMAILJS_TEMPLATE_ID` pelos valores gerados.
+
+Exemplo de nomes de campos usados pelo template (já definidos no formulário):
+- from_name
+- reply_to
+- subject
+- message
+
+Observações:
+- Teste o envio localmente abrindo `index.html` no navegador. Verifique o console (F12) para mensagens de sucesso/erro.
+- Se preferir, você também pode usar outras integrações (ex.: Netlify Forms) em vez do EmailJS.
+
+Se quiser, posso preencher esses valores por você se me fornecer os IDs do EmailJS.
