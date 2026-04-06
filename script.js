@@ -1652,67 +1652,51 @@ function handleContactSubmit(e) {
 
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn ? submitBtn.textContent : null;
+    const formData = new FormData(e.target);
 
-    if (!window.emailjs) {
-        showNotification('Serviço de envio indisponível no momento (EmailJS não carregou).', 'error');
+    const fromName = String(formData.get('from_name') || '').trim();
+    const replyTo = String(formData.get('reply_to') || '').trim();
+    const subject = String(formData.get('subject') || '').trim();
+    const message = String(formData.get('message') || '').trim();
+
+    if (!fromName || !replyTo || !subject || !message) {
+        showNotification('Preencha todos os campos antes de enviar.', 'error');
         return;
     }
 
-    const serviceID = 'service_fhinuzs';
-    const templateID = 'template_wxkn9c2';
+    const whatsappNumber = '5531999380844';
+    const text = [
+        '*Nova mensagem do portfólio*',
+        '',
+        `*Nome:* ${fromName}`,
+        `*Email:* ${replyTo}`,
+        `*Assunto:* ${subject}`,
+        '',
+        '*Mensagem:*',
+        message
+    ].join('\n');
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
 
     if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Enviando...';
+        submitBtn.textContent = 'Abrindo WhatsApp...';
     }
 
-    const finish = () => {
-        if (!submitBtn) return;
-        submitBtn.disabled = false;
-        if (originalBtnText) submitBtn.textContent = originalBtnText;
-    };
+    const popup = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    if (!popup) {
+        window.location.href = whatsappUrl;
+    }
 
-    // 1) Tenta o caminho padrão (mapeamento do template)
-    window.emailjs
-        .sendForm(serviceID, templateID, '#contactForm')
-        .then((response) => {
-            console.log('SUCCESS (sendForm)!', response);
-            showNotification('Mensagem enviada com sucesso! Retornarei em breve.', 'success');
-            e.target.reset();
-            window.alert('Mensagem enviada com sucesso! Verifique seu e-mail.');
-        })
-        .catch((error) => {
-            console.error('sendForm FAILED...', error);
+    showNotification('Redirecionando para o WhatsApp...', 'success');
+    e.target.reset();
 
-            // 2) Fallback: envio explícito por params
-            const form = document.getElementById('contactForm');
-            const formData = new FormData(form);
-            const params = {
-                from_name: formData.get('from_name') || '',
-                reply_to: formData.get('reply_to') || '',
-                subject: formData.get('subject') || '',
-                message: formData.get('message') || '',
-                to_email: 'lucaspsilva162014@gmail.com'
-            };
-
-            console.log('Attempting emailjs.send with params:', params);
-
-            return window.emailjs
-                .send(serviceID, templateID, params)
-                .then((resp) => {
-                    console.log('SUCCESS (send)!', resp);
-                    showNotification('Mensagem enviada com sucesso! Retornarei em breve.', 'success');
-                    e.target.reset();
-                    window.alert('Mensagem enviada com sucesso! Verifique seu e-mail.');
-                })
-                .catch((err) => {
-                    console.error('send FAILED...', err);
-                    const detail = (err && err.text) ? err.text : JSON.stringify(err);
-                    showNotification('Erro ao enviar a mensagem. Veja console para detalhes.', 'error');
-                    window.alert('Erro ao enviar a mensagem:\n' + detail + '\n(Ver console para mais detalhes)');
-                });
-        })
-        .finally(finish);
+    if (submitBtn) {
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            if (originalBtnText) submitBtn.textContent = originalBtnText;
+        }, 400);
+    }
 }
 
 function initializeSkillBars() {
